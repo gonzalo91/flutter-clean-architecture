@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:learning/injection_container.dart' as ic;
 
 import 'core/user_login/user_login_service.dart';
@@ -7,6 +7,7 @@ import 'core/user_login/user_login_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ic.init();  
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
