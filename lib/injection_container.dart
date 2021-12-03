@@ -34,7 +34,7 @@ Future<void> init() async {
   
 
   //! Config
-  sl.registerSingleton(() => AppConfig());
+  sl.registerLazySingleton(() => AppConfig());
 
   //! External
   //final sharedPreferences = await SharedPreferences.getInstance();
