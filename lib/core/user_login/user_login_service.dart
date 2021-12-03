@@ -14,7 +14,7 @@ class UserLoginService implements Service<User, UserLoginParams>{
   Future<User> call(UserLoginParams params) async {    
     var userLogin = await userLoginRepository.login(params.username, params.password);
 
-    saveUserDataLocally.saveData(userLogin);
+    saveUserDataLocally.save(userLogin);
 
     return userLogin;
   }
