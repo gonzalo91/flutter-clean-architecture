@@ -1,13 +1,14 @@
 
 import 'dart:developer' as developer;
-import 'package:data_connection_checker/data_connection_checker.dart';
 
+
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:learning/core/_shared/api/network_info.dart';
 
 class NetworkInfoImpl implements NetworkInfo {  
 
 
   @override
-  Future<bool> get isConnected => DataConnectionChecker().hasConnection;        
+  Future<bool> get isConnected => InternetConnectionChecker().hasConnection;
   
 }
