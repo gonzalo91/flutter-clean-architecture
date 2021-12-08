@@ -13,24 +13,33 @@ class RootBloc extends Bloc<RootEvent, RootState> {
 
   RootBloc() : super(RootInitial()) {
     on<RootInitializeApp>((event, emit) async {
-      var authModel = await authenticationService.call(NoParams());
-      print(authModel.isAuthenticated);
-      if (!authModel.isAuthenticated) {
-        print('here 1');
-        return emit(RootUnauthenticated());
-      }
-
-      if (!authModel.serverVerification) {
-        print('here 2');
-        return emit(RootLocalAuthenticated());
-      }
-
-      print('here 3');
-      emit(RootAuthenticated());
+      await _verifyAuth(emit);
     });
 
     on<RootCheckAuth>((event, emit) async {
-      print('hola check auth');
+      await _verifyAuth(emit);
     });
+
+    on<RootLogOutEvent>((event, emit) async {
+      var hasBeenLoggedOut = await authenticationService.logOut();
+
+      if (hasBeenLoggedOut) {
+        emit(RootLogOut());
+      }
+    });
+  }
+
+  Future<void> _verifyAuth(emit) async {
+    var authModel = await authenticationService.call(NoParams());
+
+    if (!authModel.isAuthenticated) {
+      return emit(RootUnauthenticated());
+    }
+
+    if (!authModel.serverVerification) {
+      return emit(RootLocalAuthenticated());
+    }
+
+    emit(RootAuthenticated());
   }
 }

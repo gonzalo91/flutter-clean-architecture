@@ -17,10 +17,10 @@ class LoginPage extends StatelessWidget {
         ),
         body: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
-            if (state is LoginLoading) {
+            if (state is LoginSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text("Login Ok"),
+                  content: Text("Bienvenido"),
                   backgroundColor: Colors.green,
                 ),
               );
@@ -28,6 +28,18 @@ class LoginPage extends StatelessWidget {
               context.read<RootBloc>().add(
                     RootCheckAuth(),
                   );
+            }
+
+            if (state is LoginFailureState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.errorMessage,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                  backgroundColor: Colors.yellowAccent,
+                ),
+              );
             }
           },
           child: Padding(
@@ -40,16 +52,12 @@ class LoginPage extends StatelessWidget {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      labelText: 'Username',
+                      labelText: 'Password',
                     ),
                     obscureText: true,
                   ),
                   BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
                     var loading = false;
-
-                    if (state is LoginInitial) {
-                      loading = state.loading;
-                    }
 
                     if (state is LoginLoading) {
                       loading = state.loading;
@@ -59,37 +67,20 @@ class LoginPage extends StatelessWidget {
                         onPressed: loading
                             ? null
                             : () {
-                                print('click12');
-
                                 context.read<LoginBloc>().add(
-                                      LoginButtonEvent('username', 'password'),
+                                      LoginAttemptEvent('username', 'password'),
                                     );
                               },
                         child: const Text('Iniciar Sesion'));
                   }),
                   BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-                    var counter = '0';
-                    if (state is LoginInitial) {
-                      counter = state.counter.toString();
-                    }
-
-                    if (state is LoginLoading) {
-                      counter = state.tries.toString();
-                    }
-
-                    return Text(counter);
-                  }),
-                  BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
                     var loading = false;
-                    if (state is LoginInitial) {
-                      loading = state.loading;
-                    }
 
                     if (state is LoginLoading) {
-                      loading = state.loading;
+                      loading = true;
                     }
 
-                    if (loading) return const Text('Cargando');
+                    if (loading) return const CircularProgressIndicator();
 
                     return const SizedBox.shrink();
                   }),

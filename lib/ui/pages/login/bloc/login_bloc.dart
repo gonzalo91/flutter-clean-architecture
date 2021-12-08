@@ -1,35 +1,35 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:learning/core/_shared/errors/failures.dart';
+import 'package:learning/core/user_login/user_login_service.dart';
 import 'package:meta/meta.dart';
+import 'package:learning/injection_container.dart' as ic;
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  final UserLoginService userLoginService = ic.sl<UserLoginService>();
+
   LoginBloc() : super(LoginInitial()) {
-    on<LoginButtonEvent>((event, emit) async {
-      await _addToValue(1, emit);
-      print('event2!' + event.username);
-    });
-  }
-
-  Future<void> _addToValue(int toAdd, Emitter<LoginState> emit) async {
-    if (state is LoginInitial) {
+    on<LoginAttemptEvent>((event, emit) async {
       emit(LoginLoading(1, true));
-    }
 
-    if (state is LoginLoading) {
-      emit(LoginLoading((state as LoginLoading).tries + 1, true));
-    }
+      try {
+        var response = await userLoginService
+            .call(UserLoginParams(event.username, event.password));
 
-    await Future.delayed(
-      Duration(seconds: 2),
-      () {
-        print("Execute this code afer 2 seconds");
-      },
-    );
+        if (response.error) {
+          return emit(LoginFailureState(response.errorMessage));
+        }
 
-    emit(LoginLoading(0, false));
+        emit(LoginSuccess());
+      } on Exception catch (error) {
+        emit(LoginFailureState(error.toString()));
+      } catch (_) {
+        emit(LoginFailureState(_.toString()));
+      }
+    });
   }
 }

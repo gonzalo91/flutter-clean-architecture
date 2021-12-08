@@ -6,3 +6,5 @@ abstract class RootEvent {}
 class RootInitializeApp extends RootEvent {}
 
 class RootCheckAuth extends RootEvent {}
+
+class RootLogOutEvent extends RootEvent {}
