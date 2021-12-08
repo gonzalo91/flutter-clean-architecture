@@ -14,6 +14,7 @@ import 'package:learning/infra/_shared/api/network_info_impl.dart';
 import 'package:learning/infra/_shared/api/secure_storage_impl.dart';
 import 'package:learning/infra/_shared/repositories/save_user_data_locally_impl.dart';
 import 'package:learning/infra/authentication/authentication_repository_impl.dart';
+import 'package:learning/infra/user_login/data/login_datasource.dart';
 import 'package:learning/infra/user_login/user_login_repository_impl.dart';
 
 //service Locator
@@ -22,7 +23,7 @@ final sl = GetIt.instance;
 Future<void> init() async {
   //! Core
   sl.registerLazySingleton<SaveUserDataLocally>(
-      () => SaveUserDataLocallyImpl());
+      () => SaveUserDataLocallyImpl(sl()));
 
   //! Core - Shared -> api
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl());
@@ -30,13 +31,14 @@ Future<void> init() async {
   sl.registerLazySingleton<SecureStorage>(() => SecureStorageImpl());
 
   // Features - UserLogin
+  sl.registerLazySingleton(() => LoginDataSource());
   sl.registerLazySingleton<UserLoginRepository>(
-      () => UserLoginRepositoryImpl(sl(), sl()));
-  sl.registerFactory(() => UserLoginService(sl(), sl()));
+      () => UserLoginRepositoryImpl(sl(), sl(), sl()));
+  sl.registerFactory(() => UserLoginService(sl()));
 
   // Features - Authentication
   sl.registerLazySingleton<AuthenticationRepository>(
-      () => AuthenticationRepositoryImpl());
+      () => AuthenticationRepositoryImpl(sl()));
   sl.registerFactory(() => AuthenticationService(sl(), sl(), sl()));
 
   // Repository

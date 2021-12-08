@@ -1,38 +1,27 @@
-
-
-import 'dart:convert';
-
-import 'package:learning/core/_shared/api/http_client.dart';
 import 'package:learning/core/_shared/api/network_info.dart';
-import 'package:learning/core/_shared/entities/user.dart';
-import 'package:learning/core/_shared/entities/user_schedule.dart';
+import 'package:learning/core/_shared/errors/failures.dart';
+import 'package:learning/core/_shared/repositories/save_user_data_locally.dart';
 import 'package:learning/core/user_login/user_login_repository.dart';
+import 'package:learning/infra/user_login/data/login_datasource.dart';
 
-class UserLoginRepositoryImpl implements UserLoginRepository{
-    
+class UserLoginRepositoryImpl implements UserLoginRepository {
   final NetworkInfo networkInfo;
-  final HttpClient httpClient;
+  final LoginDataSource dataSource;
+  final SaveUserDataLocally saveUserDataLocally;
 
-  UserLoginRepositoryImpl(this.networkInfo, this.httpClient);
+  UserLoginRepositoryImpl(
+      this.networkInfo, this.dataSource, this.saveUserDataLocally);
 
   @override
-  Future<User> login(String username, String password) async {
-
-    if(! await networkInfo.isConnected){
-      //Throw Failure
+  Future<void> login(String username, String password) async {
+    if (!await networkInfo.isConnected) {
+      throw NoNetworkConnection();
     }
 
-    var response = await httpClient.get('posts/1', {
-      'username' : username,
-      'password' : password,
-    });
+    var response = await dataSource.login(username, password);
 
-    print(json.decode(response.body)['title']);
-            
-    return Future.value(
-      User(1, 'Zalo', 'zaluuser', 1, 'asdasdkjsahdkjsa', <UserSchedule>[])
-    );
+    await saveUserDataLocally.saveToken(response.token);
 
+    await saveUserDataLocally.saveUser(response.user);
   }
-    
 }

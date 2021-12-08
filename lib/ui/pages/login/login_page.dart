@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learning/ui/helpers.dart';
 import 'package:learning/ui/pages/login/bloc/login_bloc.dart';
 import 'package:learning/ui/state/root/root_bloc.dart';
 
@@ -18,12 +19,7 @@ class LoginPage extends StatelessWidget {
         body: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state is LoginSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Bienvenido"),
-                  backgroundColor: Colors.green,
-                ),
-              );
+              showSuccessScaffold(context, "Bienvenido");
 
               context.read<RootBloc>().add(
                     RootCheckAuth(),

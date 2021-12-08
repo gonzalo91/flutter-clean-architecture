@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learning/ui/helpers.dart';
 import 'package:learning/ui/state/root/root_bloc.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,26 +16,12 @@ class HomePage extends StatelessWidget {
       body: BlocListener<RootBloc, RootState>(
         listener: (context, state) {
           if (state is RootLocalAuthenticated) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(
-                  "No fue posible verificar. Verifique su conexion a internet",
-                  style: TextStyle(color: Colors.black),
-                ),
-                backgroundColor: Colors.yellowAccent,
-              ),
-            );
+            showWarningScaffold(context,
+                "No fue posible verificar. Verifique su conexion a internet");
           }
 
           if (state is RootAuthenticated) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(
-                  "Verificacion exitosa",
-                ),
-                backgroundColor: Colors.green,
-              ),
-            );
+            showSuccessScaffold(context, "Verificacion exitosa");
           }
         },
         child: Container(

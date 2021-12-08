@@ -31,6 +31,10 @@ class AuthenticationService implements Service<AuthenticationModel, NoParams> {
 
     return AuthenticationModel(true, true);
   }
+
+  Future<bool> logOut() {
+    return authenticationRepository.logOut();
+  }
 }
 
 class AuthenticationModel {

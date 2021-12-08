@@ -25,11 +25,11 @@ class AppState extends StatelessWidget {
           return const SplashScreenPage();
         }
 
-        if (state is RootUnauthenticated) {
+        if (state is RootUnauthenticated || state is RootLogOut) {
           return const LoginPage();
         }
 
-        if (state is RootAuthenticated) {
+        if (state is RootAuthenticated || state is RootLocalAuthenticated) {
           return const HomePage();
         }
 
