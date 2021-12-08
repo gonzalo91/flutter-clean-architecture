@@ -1,13 +1,18 @@
 import 'package:learning/core/_shared/entities/user.dart';
+import 'package:learning/infra/user_login/failures.dart';
 
 class LoginDataSource {
   Future<LoginModel> login(String user, String password) {
+    if (user != 'user' || password != '1234') {
+      throw LoginAttemptFailure();
+    }
+
     var json = {
       'token': 'ABCD1234',
       'user': {
         'id': 1,
         'name': 'User Name',
-        'username': 'user-name',
+        'username': 'user',
         'uuid': '123e4567-e89b-12d3-a456-426614174000',
       }
     };

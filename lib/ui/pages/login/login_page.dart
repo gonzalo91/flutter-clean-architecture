@@ -38,54 +38,113 @@ class LoginPage extends StatelessWidget {
               );
             }
           },
-          child: Padding(
+          child: const Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Form(
-              child: Column(
-                children: [
-                  TextFormField(
-                    decoration: const InputDecoration(labelText: 'Username'),
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                    ),
-                    obscureText: true,
-                  ),
-                  BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-                    var loading = false;
-
-                    if (state is LoginLoading) {
-                      loading = state.loading;
-                    }
-
-                    return ElevatedButton(
-                        onPressed: loading
-                            ? null
-                            : () {
-                                context.read<LoginBloc>().add(
-                                      LoginAttemptEvent('username', 'password'),
-                                    );
-                              },
-                        child: const Text('Iniciar Sesion'));
-                  }),
-                  BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-                    var loading = false;
-
-                    if (state is LoginLoading) {
-                      loading = true;
-                    }
-
-                    if (loading) return const CircularProgressIndicator();
-
-                    return const SizedBox.shrink();
-                  }),
-                ],
-              ),
-            ),
+            child: FormLogin(),
           ),
         ),
       ),
     );
+  }
+}
+
+class FormLogin extends StatefulWidget {
+  const FormLogin({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<FormLogin> createState() => _FormLoginState();
+}
+
+class _FormLoginState extends State<FormLogin> {
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: usernameController,
+            decoration: const InputDecoration(labelText: 'Username'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Debe introducir un nombre de usuario';
+              }
+
+              if (value.length < 4) {
+                return 'Debe tener al menos 4 caracteres';
+              }
+
+              return null;
+            },
+          ),
+          TextFormField(
+            controller: passwordController,
+            decoration: const InputDecoration(
+              labelText: 'Password',
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'La contraseña no debe ir vacia';
+              }
+
+              if (value.length < 4) {
+                return 'Debe tener al menos 4 caracteres';
+              }
+
+              return null;
+            },
+            obscureText: true,
+          ),
+          BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+            var loading = false;
+
+            if (state is LoginLoading) {
+              loading = state.loading;
+            }
+
+            return ElevatedButton(
+                onPressed: loading
+                    ? null
+                    : () {
+                        _loginAttempt(context);
+                      },
+                child: const Text('Iniciar Sesion'));
+          }),
+          BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+            var loading = false;
+
+            if (state is LoginLoading) {
+              loading = true;
+            }
+
+            if (loading) return const CircularProgressIndicator();
+
+            return const SizedBox.shrink();
+          }),
+        ],
+      ),
+    );
+  }
+
+  _loginAttempt(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      context.read<LoginBloc>().add(
+            LoginAttemptEvent(usernameController.text, passwordController.text),
+          );
+    }
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 }

@@ -43,8 +43,6 @@ Future<void> init() async {
       () => AuthenticationRepositoryImpl(sl()));
   sl.registerFactory(() => AuthenticationService(sl(), sl(), sl()));
 
-  // Repository
-
   // Data sources
 
   //! Config
@@ -52,7 +50,4 @@ Future<void> init() async {
 
   //! External
   //final sharedPreferences = await SharedPreferences.getInstance();
-  //sl.registerLazySingleton(() => sharedPreferences);
-  //sl.registerLazySingleton(() => http.Client());
-  //sl.registerLazySingleton(() => DataConnectionChecker());
 }
