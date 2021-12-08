@@ -1,26 +1,26 @@
-import 'package:learning/core/_shared/api/secure_storage.dart';
-import 'package:learning/core/_shared/constants.dart';
+import 'package:learning/core/_shared/errors/failures.dart';
+import 'package:learning/core/_shared/repositories/user_data_locally.dart';
 import 'package:learning/core/authentication/authentication_repository.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
-  final SecureStorage secureStorage;
+  final UserDataLocally userDataLocally;
 
-  AuthenticationRepositoryImpl(this.secureStorage);
+  AuthenticationRepositoryImpl(this.userDataLocally);
 
   @override
   Future<bool> verifyTokenInServer(token) async {
-    final token = await secureStorage.get(Constants.AUTH_TOKEN_KEY);
+    try {
+      var token = await userDataLocally.getToken();
 
-    if (token == null) {
+      return token.isNotEmpty;
+    } on AuthTokenNotFound catch (_) {
       return false;
     }
-
-    return token.isNotEmpty;
   }
 
   @override
   Future<bool> logOut() async {
-    await secureStorage.delete(Constants.AUTH_TOKEN_KEY);
+    await userDataLocally.deleteUserData();
 
     return Future.value(true);
   }

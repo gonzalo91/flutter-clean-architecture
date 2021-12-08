@@ -1,6 +1,4 @@
-import 'package:learning/core/_shared/repositories/save_user_data_locally.dart';
 import 'package:learning/core/_shared/service.dart';
-import 'package:learning/core/_shared/entities/user.dart';
 import 'package:learning/core/user_login/user_login_repository.dart';
 
 class UserLoginService
