@@ -4,7 +4,7 @@ import 'package:learning/core/_shared/api/http_client.dart';
 import 'package:learning/core/_shared/api/local_storage.dart';
 import 'package:learning/core/_shared/api/network_info.dart';
 import 'package:learning/core/_shared/api/secure_storage.dart';
-import 'package:learning/core/_shared/repositories/user_data_locally.dart';
+import 'package:learning/core/_shared/repositories/user_data_locally_repository.dart';
 import 'package:learning/core/authentication/authentication_repository.dart';
 import 'package:learning/core/authentication/authentication_service.dart';
 import 'package:learning/core/user_login/user_login_repository.dart';
@@ -23,7 +23,7 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   //! Core
-  sl.registerLazySingleton<UserDataLocally>(
+  sl.registerLazySingleton<UserDataLocallyRepository>(
       () => UserDataLocallyImpl(sl(), sl()));
 
   //! Core - Shared -> api

@@ -1,6 +1,6 @@
 import 'package:learning/core/_shared/entities/user.dart';
 
-abstract class UserDataLocally {
+abstract class UserDataLocallyRepository {
   Future<User> getUser();
 
   Future<bool> saveUser(User user);
