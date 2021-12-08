@@ -1,5 +1,7 @@
 abstract class SecureStorage {
-  Future get(String key);
+  Future<String?> get(String key);
 
-  Future put(String key, dynamic value);
+  Future<void> delete(String key);
+
+  Future<void> put(String key, String value);
 }
