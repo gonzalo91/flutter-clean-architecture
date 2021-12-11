@@ -15,7 +15,6 @@ class LocalStorageImpl implements LocalStorage {
       Directory appDocDir = await getApplicationDocumentsDirectory();
       String appDocPath = appDocDir.path;
 
-      print(appDocPath);
       Hive..init(appDocPath);
 
       _storage = await Hive.openBox('general');

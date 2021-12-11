@@ -1,5 +1,5 @@
-import 'package:learning/core/_shared/entities/user.dart';
 import 'package:learning/infra/user_login/failures.dart';
+import 'package:learning/core/_shared/entities/user.dart';
 
 class LoginDataSource {
   Future<LoginModel> login(String user, String password) {

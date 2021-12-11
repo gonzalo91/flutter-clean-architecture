@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
 import 'package:learning/core/_shared/service.dart';
 import 'package:learning/injection_container.dart' as ic;
 import 'package:learning/core/authentication/authentication_service.dart';
-import 'package:meta/meta.dart';
 
 part 'root_event.dart';
 part 'root_state.dart';

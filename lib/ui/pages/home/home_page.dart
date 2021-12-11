@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:learning/ui/helpers.dart';
-import 'package:learning/ui/pages/home/bloc/home_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learning/ui/state/root/root_bloc.dart';
+import 'package:learning/ui/pages/home/bloc/home_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
       create: (context) => HomeBloc()..add(HomeLoadingEvent()),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Home Page'),
+          title: const Text('Home Page'),
         ),
         body: BlocListener<RootBloc, RootState>(
           listener: (context, state) {
@@ -27,11 +27,10 @@ class HomePage extends StatelessWidget {
               showSuccessScaffold(context, "Verificacion exitosa");
             }
           },
-          child: Container(
-              child: Center(
+          child: Center(
             child: Column(
               children: [
-                Text('Home Page'),
+                const Text('Home Page'),
                 BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
                   if (state is HomeUserState) {
                     return Text('Bienvenido: ' + state.user.name);
@@ -43,7 +42,7 @@ class HomePage extends StatelessWidget {
                   if (state is RootLocalAuthenticated) {
                     return Column(
                       children: [
-                        Text('No fue posible verificar auth en servidor'),
+                        const Text('No fue posible verificar auth en servidor'),
                         ElevatedButton(
                             onPressed: () {
                               context.read<RootBloc>().add(
@@ -55,7 +54,7 @@ class HomePage extends StatelessWidget {
                     );
                   }
 
-                  return Text('Verificacion exitosa');
+                  return const Text('Verificacion exitosa');
                 }),
                 ElevatedButton(
                   onPressed: () {
@@ -63,11 +62,11 @@ class HomePage extends StatelessWidget {
                           RootLogOutEvent(),
                         );
                   },
-                  child: Text('Cerrar Sesion'),
+                  child: const Text('Cerrar Sesion'),
                 ),
               ],
             ),
-          )),
+          ),
         ),
       ),
     );

@@ -1,8 +1,8 @@
-import 'package:learning/core/_shared/api/local_storage.dart';
-import 'package:learning/core/_shared/api/secure_storage.dart';
 import 'package:learning/core/_shared/constants.dart';
 import 'package:learning/core/_shared/entities/user.dart';
 import 'package:learning/core/_shared/errors/failures.dart';
+import 'package:learning/core/_shared/api/local_storage.dart';
+import 'package:learning/core/_shared/api/secure_storage.dart';
 import 'package:learning/core/_shared/repositories/user_data_locally_repository.dart';
 
 class UserDataLocallyImpl implements UserDataLocallyRepository {

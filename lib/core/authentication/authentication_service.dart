@@ -1,8 +1,7 @@
+import 'package:learning/core/_shared/service.dart';
+import 'package:learning/core/_shared/constants.dart';
 import 'package:learning/core/_shared/api/network_info.dart';
 import 'package:learning/core/_shared/api/secure_storage.dart';
-import 'package:learning/core/_shared/constants.dart';
-import 'package:learning/core/_shared/entities/user.dart';
-import 'package:learning/core/_shared/service.dart';
 import 'package:learning/core/authentication/authentication_repository.dart';
 
 class AuthenticationService implements Service<AuthenticationModel, NoParams> {

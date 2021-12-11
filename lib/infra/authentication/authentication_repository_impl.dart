@@ -1,6 +1,6 @@
 import 'package:learning/core/_shared/errors/failures.dart';
-import 'package:learning/core/_shared/repositories/user_data_locally_repository.dart';
 import 'package:learning/core/authentication/authentication_repository.dart';
+import 'package:learning/core/_shared/repositories/user_data_locally_repository.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final UserDataLocallyRepository userDataLocally;

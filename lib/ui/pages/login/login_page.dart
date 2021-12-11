@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:learning/ui/helpers.dart';
-import 'package:learning/ui/pages/login/bloc/login_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learning/ui/state/root/root_bloc.dart';
+import 'package:learning/ui/pages/login/bloc/login_bloc.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -39,7 +39,7 @@ class LoginPage extends StatelessWidget {
             }
           },
           child: const Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: FormLogin(),
           ),
         ),

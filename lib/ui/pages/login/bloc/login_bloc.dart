@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
-import 'package:learning/core/_shared/errors/failures.dart';
-import 'package:learning/core/user_login/user_login_service.dart';
 import 'package:meta/meta.dart';
 import 'package:learning/injection_container.dart' as ic;
+import 'package:learning/core/user_login/user_login_service.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

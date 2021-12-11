@@ -1,8 +1,8 @@
-import 'package:learning/core/_shared/api/network_info.dart';
 import 'package:learning/core/_shared/errors/failures.dart';
-import 'package:learning/core/_shared/repositories/user_data_locally_repository.dart';
+import 'package:learning/core/_shared/api/network_info.dart';
 import 'package:learning/core/user_login/user_login_repository.dart';
 import 'package:learning/infra/user_login/data/login_datasource.dart';
+import 'package:learning/core/_shared/repositories/user_data_locally_repository.dart';
 
 class UserLoginRepositoryImpl implements UserLoginRepository {
   final NetworkInfo networkInfo;
